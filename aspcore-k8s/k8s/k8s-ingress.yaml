@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+  name: aspcore-test-ingress
+spec:
+  rules:
+  - host: aspcore.10.0.2.15.nip.io
+    http:
+      paths:
+      - backend:
+          serviceName: aspcore-test
+          servicePort: 80
+        path: /
