@@ -6,7 +6,7 @@ metadata:
   name: aspcore-test-ingress
 spec:
   rules:
-  - host: aspcore.10.0.2.15.nip.io
+  - host: aspcore-test.10.0.2.15.nip.io
     http:
       paths:
       - backend:
