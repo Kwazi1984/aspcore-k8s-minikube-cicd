@@ -8,7 +8,7 @@ pipeline {
 
         stage('Build Docker Image'){
             steps{
-                sh "docker build . -t kwazi1984/aspcore-test:${DOCKER_TAG} "
+                sh "docker build ./aspcore-k8s -t kwazi1984/aspcore-test:${DOCKER_TAG} "
             }
         }
         stage('DockerHub Push'){
