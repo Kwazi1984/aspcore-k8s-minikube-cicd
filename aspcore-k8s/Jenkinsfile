@@ -21,11 +21,11 @@ pipeline {
         }
         stage('Deploy to Kubernetes'){
             steps{
-                sh "chmod +x k8s/changeTag.sh"
-                sh "./k8s/changeTag.sh ${DOCKER_TAG}"
+                sh "chmod +x aspcore-k8s/k8s/changeTag.sh"
+                sh "./aspcore-k8s/k8s/changeTag.sh ${DOCKER_TAG}"
                 sshagent(['kops-machine']) {
 
-                    sh "scp -o StrictHostKeyChecking=no k8s/k8s-deploy.yaml k8s/k8s-svc-clusterip.yaml k8s/k8s-ingress.yaml ubuntu@10.0.2.15:/home/ubuntu/jenkinks-k8s-ssh/aspcore-test/"
+                    sh "scp -o StrictHostKeyChecking=no aspcore-k8s/k8s/k8s-deploy.yaml aspcore-k8s/k8s/k8s-svc-clusterip.yaml aspcore-k8s/k8s/k8s-ingress.yaml ubuntu@10.0.2.15:/home/ubuntu/jenkinks-k8s-ssh/aspcore-test/"
                     script{
                         try{
                             sh "ssh ubuntu@10.0.2.15 kubectl apply -f /home/ubuntu/jenkinks-k8s-ssh/aspcore-test/. -n aspcore-test"
