@@ -5,7 +5,11 @@ pipeline {
     }
 
     stages{
-
+        stage('Dotnet'){
+            steps{
+                sh "dotnet --info "
+            }           
+        }
         stage('Build Docker Image'){
             steps{
                 sh "docker build ./aspcore-k8s -t kwazi1984/aspcore-test:${DOCKER_TAG} "
