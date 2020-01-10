@@ -7,7 +7,7 @@ pipeline {
     stages{
         stage('Dotnet'){
             steps{
-                sh "dotnet --info "
+                sh "dotnet --version"
             }           
         }
         stage('Build Docker Image'){
