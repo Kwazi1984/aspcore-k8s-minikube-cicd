@@ -30,9 +30,9 @@ pipeline {
 
                 script{
                         try{
-                            sh "kubectl apply -f ./aspcore-k8s/k8s/ -n aspcore-test"
+                            sh "kubectl apply -f ./aspcore-k8s/k8s/. -n aspcore-test"
                         }catch(error){
-                            sh "kubectl create -f ./aspcore-k8s/k8s/ -n aspcore-test"
+                            sh "kubectl create -f ./aspcore-k8s/k8s/. -n aspcore-test"
                         }
                     }     
             }
