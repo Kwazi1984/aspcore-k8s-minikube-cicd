@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+    environment{
+        DOCKER_TAG = getDockerTag()
+    }
+
+    stages{
+        stage('Dotnet'){
+            steps{
+                sh "dotnet --version"
+            }           
+        }
+        stage('Build Docker Image'){
+            steps{
+                sh "docker build ./aspcore-k8s -t kwazi1984/aspcore-test:${DOCKER_TAG} "
+            }
+        }
+        stage('DockerHub Push'){
+            steps{
+                withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
+                    sh "docker login -u kwazi1984 -p ${dockerHubPwd}"
+                    sh "docker push kwazi1984/aspcore-test:${DOCKER_TAG}"
+                }
+            }
+        }
+        stage('Deploy to Kubernetes'){
+            steps{
+                sh "chmod +x aspcore-k8s/k8s/changeTag.sh"
+                sh "./aspcore-k8s/k8s/changeTag.sh ${DOCKER_TAG}"
+
+                script{
+                        try{
+                            sh "kubectl apply -f ./aspcore-k8s/k8s/ -n aspcore-test"
+                        }catch(error){
+                            sh "kubectl create -f ./aspcore-k8s/k8s/ -n aspcore-test"
+                        }
+                    }     
+            }
+        }
+    }
+}
+
+def getDockerTag(){
+    def tag  = sh script: 'git rev-parse HEAD', returnStdout: true
+    return tag
+}
