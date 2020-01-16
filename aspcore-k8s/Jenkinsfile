@@ -34,7 +34,7 @@ pipeline {
                         }catch(error){
                             sh "kubectl create -f ./aspcore-k8s/k8s/ -n aspcore-test"
                         }
-                    }     a
+                    }     
             }
         }
     }
