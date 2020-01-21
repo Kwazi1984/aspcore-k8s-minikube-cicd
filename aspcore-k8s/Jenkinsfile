@@ -5,36 +5,49 @@ pipeline {
     }
 
     stages{
-        stage('Dotnet'){
-            steps{
-                sh "dotnet --version"
-            }           
-        }
-        stage('Build Docker Image'){
-            steps{
-                sh "docker build ./aspcore-k8s -t kwazi1984/aspcore-test:${DOCKER_TAG} "
-            }
-        }
-        stage('DockerHub Push'){
-            steps{
-                withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
-                    sh "docker login -u kwazi1984 -p ${dockerHubPwd}"
-                    sh "docker push kwazi1984/aspcore-test:${DOCKER_TAG}"
-                }
-            }
-        }
+        // stage('Dotnet'){
+        //     steps{
+        //         sh "dotnet --version"
+        //     }           
+        // }
+        // stage('Build Docker Image'){
+        //     steps{
+        //         sh "docker build ./aspcore-k8s -t kwazi1984/aspcore-test:${DOCKER_TAG} "
+        //     }
+        // }
+        // stage('DockerHub Push'){
+        //     steps{
+        //         withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
+        //             sh "docker login -u kwazi1984 -p ${dockerHubPwd}"
+        //             sh "docker push kwazi1984/aspcore-test:${DOCKER_TAG}"
+        //         }
+        //     }
+        // }
         stage('Deploy to Kubernetes'){
             steps{
-                sh "chmod +x aspcore-k8s/k8s/changeTag.sh"
-                sh "./aspcore-k8s/k8s/changeTag.sh ${DOCKER_TAG}"
+                sh "kubectl version"
+                // sh "chmod +x aspcore-k8s/k8s/changeTag.sh"
+                // sh "./aspcore-k8s/k8s/changeTag.sh ${DOCKER_TAG}"
 
-                script{
-                        try{
-                            sh "kubectl apply -f ./aspcore-k8s/k8s/. -n aspcore-test"
-                        }catch(error){
-                            sh "kubectl create -f ./aspcore-k8s/k8s/. -n aspcore-test"
-                        }
-                    }     
+                // script{
+                //         try{
+                //             sh "kubectl apply -f ./aspcore-k8s/k8s/. -n aspcore-test"
+                //         }catch(error){
+                //             sh "kubectl create -f ./aspcore-k8s/k8s/. -n aspcore-test"
+                //         }
+                //     }     
+
+                // sshagent(['kops-machine']) {
+
+                //     sh "scp -o StrictHostKeyChecking=no aspcore-k8s/k8s/k8s-deploy.yaml aspcore-k8s/k8s/k8s-svc-clusterip.yaml aspcore-k8s/k8s/k8s-ingress.yaml ubuntu@10.0.2.15:/home/ubuntu/jenkinks-k8s-ssh/aspcore-test/"
+                //     script{
+                //         try{
+                //             sh "ssh ubuntu@10.0.2.15 kubectl apply -f /home/ubuntu/jenkinks-k8s-ssh/aspcore-test/. -n aspcore-test"
+                //         }catch(error){
+                //             sh "ssh ubuntu@10.0.2.15 kubectl create -f /home/ubuntu/jenkinks-k8s-ssh/aspcore-test/. n aspcore-test"
+                //         }
+                //     }
+                // }  
             }
         }
     }
