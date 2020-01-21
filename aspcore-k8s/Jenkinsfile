@@ -26,9 +26,11 @@ pipeline {
         stage('Deploy to Kubernetes'){
             steps{
 
-                sshagent(['kops-machine']) {
-                    sh "ssh ubuntu@10.0.2.15 kubectl version"
-                }
+                sh "kubectl version"
+
+                // sshagent(['kops-machine']) {
+                //     sh "kubectl version"
+                // }
 
                 // sh "chmod +x aspcore-k8s/k8s/changeTag.sh"
                 // sh "./aspcore-k8s/k8s/changeTag.sh ${DOCKER_TAG}"
