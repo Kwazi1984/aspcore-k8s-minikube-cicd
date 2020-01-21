@@ -26,7 +26,7 @@ pipeline {
         stage('Deploy to Kubernetes'){
             steps{
 
-                sh "kubectl version"
+                sh "who -u"
 
                 // sshagent(['kops-machine']) {
                 //     sh "kubectl version"
