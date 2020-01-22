@@ -27,7 +27,7 @@ pipeline {
             steps{
 
                 sh "who -u"
-                sh "kubectl get pod"
+                sh "kubectl config view"
 
                 // sshagent(['kops-machine']) {
                 //     sh "kubectl version"
