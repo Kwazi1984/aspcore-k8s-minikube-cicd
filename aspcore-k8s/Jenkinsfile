@@ -27,7 +27,7 @@ pipeline {
             steps{
 
                 sh "who -u"
-                sh "kubectl get pod --username=ubuntu --password=ubuntu"
+                sh "kubectl get pod"
 
                 // sshagent(['kops-machine']) {
                 //     sh "kubectl version"
