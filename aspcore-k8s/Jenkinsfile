@@ -30,14 +30,9 @@ pipeline {
                 // sh "kubectl config set-context minikube --cluster=minikube --user=minikube"
                 // sh "kubectl config use-context minikube"
 
-                withEnv(["KUBECONFIG=$HOME/.kube/config"]) {
-                    //sh "export KUBECONFIG=~/.kube/config"
-                    sh "kubectl config view"
-                    sh "kubectl get pod"
+                withKubeConfig([credentialsId: 'minikube', serverUrl: 'https://10.0.2.15:8443']) {
+                    sh 'kubectl get pod'
                 }
-
-                
-
 
                 // sshagent(['kops-machine']) {
                 //     sh "kubectl version"
