@@ -26,7 +26,8 @@ pipeline {
         stage('Deploy to Kubernetes'){
             steps{
 
-                sh "who -u"
+                sh "echo $KUBECONFIG"
+                sh "echo KUBECONFIG"
                 sh "kubectl config view"
 
                 // sshagent(['kops-machine']) {
