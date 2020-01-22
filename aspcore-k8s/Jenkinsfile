@@ -30,7 +30,7 @@ pipeline {
                 // sh "kubectl config set-context minikube --cluster=minikube --user=minikube"
                 // sh "kubectl config use-context minikube"
 
-                withKubeConfig([credentialsId: 'user1', serverUrl: 'https://10.0.2.15:8443']) {
+                withKubeConfig([credentialsId: 'ubuntu', serverUrl: 'https://10.0.2.15:8443']) {
                     sh 'kubectl get pod'
                 }
 
