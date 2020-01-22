@@ -26,7 +26,7 @@ pipeline {
         stage('Deploy to Kubernetes'){
             steps{
 
-                sh "export KUBECONFIG=~/.kube/config"
+                sh "export KUBECONFIG=/home/ubuntu/.kube/config"
                 sh "kubectl config view"
 
                 // sshagent(['kops-machine']) {
