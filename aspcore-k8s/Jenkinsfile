@@ -30,6 +30,7 @@ pipeline {
                 sh "kubectl config set-context minikube --cluster=minikube --user=minikube"
                 sh "kubectl config use-context minikube"
                 sh "kubectl config view"
+                sh "kubectl get pod"
 
                 // sshagent(['kops-machine']) {
                 //     sh "kubectl version"
