@@ -29,6 +29,7 @@ pipeline {
                 // sh "kubectl config set-cluster minikube --server=https://10.0.2.15:8443 --insecure-skip-tls-verify=true"
                 // sh "kubectl config set-context minikube --cluster=minikube --user=minikube"
                 // sh "kubectl config use-context minikube"
+                sh "kubectl config set-credentials minikube --client-certificate=/home/ubuntu/.minikube/client.crt --client-key=/home/ubuntu/.minikube/client.key"
 
                 sh "kubectl config view"
 
