@@ -32,6 +32,8 @@ pipeline {
 
                 sh "kubectl config view"
 
+                sh "kubectl version"
+
                 withKubeConfig([credentialsId: 'ubuntu', serverUrl: 'https://10.0.2.15:8443']) {
                     sh 'kubectl get pod'
                 }
