@@ -12,10 +12,10 @@ namespace Tests
         [Test]
         public void Test1()
         {
-            var actual = "test";
+            var actual = "failed";
 
             var expected = "test";
-            
+
             Assert.AreEqual(expected, actual);
         }
     }
