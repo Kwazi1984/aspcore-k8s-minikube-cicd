@@ -10,6 +10,12 @@ pipeline {
                 sh "dotnet --version"
             }           
         }
+
+        stage('Unit tests'){
+            steps{
+                sh "dotnet test"
+            }  
+        }
         // stage('Build Docker Image'){
         //     steps{
         //         sh "docker build ./aspcore-k8s -t kwazi1984/aspcore-test:${DOCKER_TAG} "
