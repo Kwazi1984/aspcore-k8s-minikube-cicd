@@ -13,7 +13,7 @@ pipeline {
 
         stage('Unit tests'){
             steps{
-                sh "dotnet test"
+                sh "dotnet test aspcore-k8s.Tests/aspcore-k8s.Tests.csproj"
             }  
         }
         // stage('Build Docker Image'){
