@@ -12,7 +12,7 @@ namespace Tests
         [Test]
         public void Test1()
         {
-            var actual = "passed";
+            var actual = "failed";
 
             var expected = "passed";
 
