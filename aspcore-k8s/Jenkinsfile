@@ -16,19 +16,21 @@ pipeline {
                 sh "dotnet test aspcore-k8s.Tests/aspcore-k8s.Tests.csproj"
             }  
         }
-        // stage('Build Docker Image'){
-        //     steps{
-        //         sh "docker build ./aspcore-k8s -t kwazi1984/aspcore-test:${DOCKER_TAG} "
-        //     }
-        // }
-        // stage('DockerHub Push'){
-        //     steps{
-        //         withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
-        //             sh "docker login -u kwazi1984 -p ${dockerHubPwd}"
-        //             sh "docker push kwazi1984/aspcore-test:${DOCKER_TAG}"
-        //         }
-        //     }
-        // }
+
+        stage('Build Docker Image'){
+            steps{
+                sh "docker build ./aspcore-k8s -t kwazi1984/aspcore-test:${DOCKER_TAG} "
+            }
+        }
+        stage('DockerHub Push'){
+            steps{
+                withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
+                    sh "docker login -u kwazi1984 -p ${dockerHubPwd}"
+                    sh "docker push kwazi1984/aspcore-test:${DOCKER_TAG}"
+                }
+            }
+        }
+        
         stage('Deploy to Kubernetes'){
             steps{
                
@@ -37,11 +39,11 @@ pipeline {
                 // sh "kubectl config use-context minikube"
                 // sh "kubectl config set-credentials minikube --client-certificate=/home/ubuntu/.minikube/client.crt --client-key=/home/ubuntu/.minikube/client.key"
 
-                sh "kubectl config view"
+                //sh "kubectl config view"
 
                 sh "kubectl version"
 
-                sh 'kubectl get pod'
+                //sh 'kubectl get pod'
 
                 // withKubeConfig([credentialsId: 'ubuntu', serverUrl: 'https://10.0.2.15:8443']) {
                 //     sh 'kubectl get pod'
@@ -51,16 +53,16 @@ pipeline {
                 //     sh "kubectl version"
                 // }
 
-                // sh "chmod +x aspcore-k8s/k8s/changeTag.sh"
-                // sh "./aspcore-k8s/k8s/changeTag.sh ${DOCKER_TAG}"
+                sh "chmod +x aspcore-k8s/k8s/changeTag.sh"
+                sh "./aspcore-k8s/k8s/changeTag.sh ${DOCKER_TAG}"
 
-                // script{
-                //         try{
-                //             sh "kubectl apply -f ./aspcore-k8s/k8s/. -n aspcore-test"
-                //         }catch(error){
-                //             sh "kubectl create -f ./aspcore-k8s/k8s/. -n aspcore-test"
-                //         }
-                //     }     
+                script{
+                        try{
+                            sh "kubectl apply -f ./aspcore-k8s/k8s/. -n aspcore-test"
+                        }catch(error){
+                            sh "kubectl create -f ./aspcore-k8s/k8s/. -n aspcore-test"
+                        }
+                    }     
 
                 // sshagent(['kops-machine']) {
 
